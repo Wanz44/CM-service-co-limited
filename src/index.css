@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  }
+}
+
+.bg-navy-dark {
+  background-color: #021541;
+}
+
+.text-navy-dark {
+  color: #021541;
+}
+
+.bg-brand-red {
+  background-color: #bb0019;
+}
+
+.text-brand-red {
+  color: #bb0019;
+}
+
+.border-brand-red {
+  border-color: #bb0019;
+}
+
+.hover\:bg-brand-red-dark:hover {
+  background-color: #990014;
+}

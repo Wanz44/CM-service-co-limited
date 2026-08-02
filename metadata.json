@@ -1,0 +1,6 @@
+{
+  "name": "CM Service Co. Limited - Logistique Chine - Kinshasa",
+  "description": "Plateforme logistique internationale spécialisée dans le fret maritime, aérien, dédouanement et sourcing commercial entre la Chine et la RDC (Kinshasa).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
