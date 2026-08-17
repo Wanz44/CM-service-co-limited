@@ -131,22 +131,32 @@ export const Footer: React.FC<FooterProps> = ({
               Bureaux & Hubs Physiques
             </h4>
             <div className="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-xs">
-              <div className="flex items-center gap-1.5 text-orange-400 font-bold mb-1">
-                <span>🇨🇳</span>
-                <span>Guangzhou (Yuexiu)</span>
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-1.5 text-orange-400 font-bold">
+                  <span>🇨🇳</span>
+                  <span>Guangzhou (Yuexiu)</span>
+                </div>
+                <span className="text-[10px] text-slate-400">{COMPANY_CONTACT.guangzhouOffice.phone}</span>
               </div>
               <p className="text-slate-400 text-[11px] leading-relaxed">
                 {COMPANY_CONTACT.guangzhouOffice.address}
               </p>
             </div>
             <div className="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-xs">
-              <div className="flex items-center gap-1.5 text-sky-400 font-bold mb-1">
-                <span>🇨🇩</span>
-                <span>Kinshasa (Gombe)</span>
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-1.5 text-sky-400 font-bold">
+                  <span>🇨🇩</span>
+                  <span>Kinshasa (Gombe)</span>
+                </div>
+                <span className="text-[10px] text-slate-400">{COMPANY_CONTACT.kinshasaOffice.phone}</span>
               </div>
               <p className="text-slate-400 text-[11px] leading-relaxed">
                 {COMPANY_CONTACT.kinshasaOffice.address}
               </p>
+              <div className="mt-1.5 pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+                <span className="text-slate-400">WhatsApp RDC:</span>
+                <span className="text-emerald-400 font-medium">{COMPANY_CONTACT.kinshasaOffice.whatsapp}</span>
+              </div>
             </div>
           </div>
         </div>

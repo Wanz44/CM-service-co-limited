@@ -227,9 +227,12 @@ export const COMPANY_CONTACT = {
   },
   kinshasaOffice: {
     address: "Boulevard du 30 Juin, Commune de la Gombe",
-    phone: "+243 810 000 000",
+    phone: "+243 843 070 341",
+    whatsapp: "+243 844 584 963",
+    whatsappRaw: "243844584963",
     email: "kinshasa@cmservice-rdc.com",
     city: "Kinshasa, RDC"
   },
-  whatsapp: "8617701980521"
+  whatsapp: "8617701980521",
+  whatsappKinshasa: "243844584963"
 };

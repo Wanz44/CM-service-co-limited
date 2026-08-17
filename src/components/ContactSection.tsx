@@ -79,7 +79,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
       `_Envoyé depuis le site officiel CM Service Co._`
     );
 
-    window.open(`https://wa.me/${COMPANY_CONTACT.whatsapp}?text=${whatsappMessage}`, '_blank');
+    const targetWhatsApp = formData.hub === 'kinshasa' 
+      ? (COMPANY_CONTACT.whatsappKinshasa || '243844584963')
+      : COMPANY_CONTACT.whatsapp;
+
+    window.open(`https://wa.me/${targetWhatsApp}?text=${whatsappMessage}`, '_blank');
     setSubmitted(true);
   };
 
@@ -283,17 +287,40 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
                   <Phone className="w-5 h-5 text-blue-600 shrink-0" />
                   <div className="flex-1 text-xs sm:text-sm">
-                    <span className="font-bold text-[#0f172a] block">Téléphone & Assistance locale :</span>
-                    <a href={`tel:${COMPANY_CONTACT.guangzhouOffice.phone}`} className="text-slate-700 font-semibold hover:text-blue-600 transition-colors">
-                      {COMPANY_CONTACT.guangzhouOffice.phone} / Kinshasa Desk
+                    <span className="font-bold text-[#0f172a] block">Téléphone direct RDC :</span>
+                    <a href={`tel:${COMPANY_CONTACT.kinshasaOffice.phone.replace(/\s+/g, '')}`} className="text-slate-700 font-semibold hover:text-blue-600 transition-colors">
+                      {COMPANY_CONTACT.kinshasaOffice.phone}
                     </a>
                   </div>
                   <button
-                    onClick={() => handleCopy(COMPANY_CONTACT.guangzhouOffice.phone, 'kin-phone')}
+                    onClick={() => handleCopy(COMPANY_CONTACT.kinshasaOffice.phone, 'kin-phone')}
                     className="text-slate-400 hover:text-blue-600 p-1.5 rounded-lg hover:bg-white transition-colors cursor-pointer"
-                    title="Copier le numéro"
+                    title="Copier le numéro de téléphone"
                   >
                     {copiedField === 'kin-phone' ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+
+                {/* WhatsApp Kinshasa */}
+                <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-100">
+                  <MessageSquare className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <div className="flex-1 text-xs sm:text-sm">
+                    <span className="font-bold text-emerald-900 block">WhatsApp Desk Kinshasa :</span>
+                    <a 
+                      href={`https://wa.me/${COMPANY_CONTACT.whatsappKinshasa}?text=${encodeURIComponent('Bonjour CM Service Kinshasa, je souhaite des informations.')}`}
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-emerald-700 font-semibold hover:underline"
+                    >
+                      {COMPANY_CONTACT.kinshasaOffice.whatsapp}
+                    </a>
+                  </div>
+                  <button
+                    onClick={() => handleCopy(COMPANY_CONTACT.kinshasaOffice.whatsapp, 'kin-wa')}
+                    className="text-emerald-500 hover:text-emerald-700 p-1.5 rounded-lg hover:bg-white transition-colors cursor-pointer"
+                    title="Copier le numéro WhatsApp"
+                  >
+                    {copiedField === 'kin-wa' ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
 
@@ -325,13 +352,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
             {/* Hub footer buttons */}
             <div className="pt-4 border-t border-slate-100 flex flex-wrap gap-3">
-              <button
-                onClick={onOpenWhatsApp}
-                className="flex-1 bg-[#0f172a] hover:bg-slate-800 text-white py-3 px-4 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-soft transition-all cursor-pointer"
+              <a
+                href={`https://wa.me/${COMPANY_CONTACT.whatsappKinshasa}?text=${encodeURIComponent('Bonjour CM Service Kinshasa, je souhaite échanger directement avec votre bureau de Gombe.')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 bg-[#25D366] hover:bg-[#1EBE5D] text-white py-3 px-4 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-soft transition-all cursor-pointer text-center"
               >
-                <MessageSquare className="w-4 h-4 text-orange-400" />
-                <span>Prendre RDV à Gombe</span>
-              </button>
+                <MessageSquare className="w-4 h-4 fill-white" />
+                <span>WhatsApp Kinshasa</span>
+              </a>
               <button
                 onClick={() => onOpenQuote('Demande de dédouanement et livraison à Kinshasa')}
                 className="bg-orange-600 hover:bg-orange-700 text-white py-3 px-4 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
