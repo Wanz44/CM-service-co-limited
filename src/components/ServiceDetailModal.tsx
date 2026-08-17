@@ -37,7 +37,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
 
           <div className="absolute bottom-6 left-6 right-6 text-white">
             <span className="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-[#bb0019] mb-2">
-              SERVICE ARCO IRIS RDC
+              CM SERVICE CO., LIMITED
             </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
               {service.title}

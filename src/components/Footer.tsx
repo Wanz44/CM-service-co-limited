@@ -2,74 +2,77 @@ import React from 'react';
 import { COMPANY_CONTACT } from '../data/content';
 import { Language } from '../types';
 import { translations } from '../data/translations';
-import { Phone, Mail, MapPin, MessageSquare, ArrowUpRight } from 'lucide-react';
+import { Phone, Mail, MessageSquare, ArrowUpRight } from 'lucide-react';
 
 interface FooterProps {
   currentLang: Language;
   onOpenTracking: () => void;
-  onOpenCalculator: () => void;
   onOpenContact: () => void;
   onOpenWhatsApp: () => void;
+  onOpenLegal: (tab: 'legal' | 'cgv' | 'privacy') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   currentLang,
   onOpenTracking,
-  onOpenCalculator,
   onOpenContact,
   onOpenWhatsApp,
+  onOpenLegal,
 }) => {
   const t = translations[currentLang];
 
   return (
-    <footer id="contact" className="bg-[#021541] text-white pt-12 sm:pt-16 pb-8 border-t border-white/10">
+    <footer id="contact" className="bg-[#0f172a] text-white pt-16 sm:pt-20 pb-10 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-14 border-b border-slate-800">
           
           {/* Col 1: Brand Info */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded bg-[#bb0019] flex items-center justify-center font-extrabold text-white text-base">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-orange-600 flex items-center justify-center font-extrabold text-white text-base shadow-soft">
                 CM
               </div>
-              <h3 className="font-extrabold text-base sm:text-lg tracking-tight text-white leading-tight">
-                CM SERVICE CO., LIMITED
-              </h3>
+              <div>
+                <h3 className="font-extrabold text-base tracking-tight text-white font-display leading-tight">
+                  CM SERVICE CO., LTD
+                </h3>
+                <span className="text-[11px] text-slate-400 font-medium">Guangzhou ⇄ Kinshasa</span>
+              </div>
             </div>
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed mb-6">
+            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed font-body">
               {COMPANY_CONTACT.tagline}
             </p>
-            <div className="flex items-center space-x-3 text-slate-300">
+            <div className="flex items-center space-x-2.5 pt-2">
               <button 
                 onClick={onOpenWhatsApp} 
-                className="w-8 h-8 rounded bg-white/10 hover:bg-[#bb0019] flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-emerald-600 flex items-center justify-center transition-colors cursor-pointer text-slate-300 hover:text-white"
                 title="WhatsApp Direct"
               >
-                <MessageSquare className="w-4 h-4 text-emerald-400" />
+                <MessageSquare className="w-4 h-4" />
               </button>
               <a 
                 href={`mailto:${COMPANY_CONTACT.guangzhouOffice.email}`}
-                className="w-8 h-8 rounded bg-white/10 hover:bg-[#bb0019] flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-orange-600 flex items-center justify-center transition-colors cursor-pointer text-slate-300 hover:text-white"
                 title="Email Direct"
               >
-                <Mail className="w-4 h-4 text-sky-400" />
+                <Mail className="w-4 h-4" />
               </a>
               <a 
                 href={`tel:${COMPANY_CONTACT.guangzhouOffice.phone}`}
-                className="w-8 h-8 rounded bg-white/10 hover:bg-[#bb0019] flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-sky-600 flex items-center justify-center transition-colors cursor-pointer text-slate-300 hover:text-white"
                 title="Téléphone"
               >
-                <Phone className="w-4 h-4 text-amber-400" />
+                <Phone className="w-4 h-4" />
               </a>
             </div>
           </div>
 
           {/* Col 2: Services */}
           <div>
-            <h4 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-[#bb0019] pl-2.5">
+            <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-4 font-display">
               {t.footer.servicesTitle}
             </h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-300">
+            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-400 font-body">
               <li>
                 <a href="#services" className="hover:text-white transition-colors">{t.footer.sourcingLink}</a>
               </li>
@@ -80,8 +83,8 @@ export const Footer: React.FC<FooterProps> = ({
                 <a href="#services" className="hover:text-white transition-colors">{t.footer.freightLink}</a>
               </li>
               <li>
-                <button onClick={onOpenCalculator} className="text-red-400 hover:text-red-300 transition-colors font-semibold text-left">
-                  {t.footer.simulatorLink}
+                <button onClick={onOpenContact} className="text-orange-400 hover:text-orange-300 transition-colors font-medium text-left cursor-pointer">
+                  Demande de Devis Direct
                 </button>
               </li>
             </ul>
@@ -89,80 +92,72 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Col 3: Liens Utiles */}
           <div>
-            <h4 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-[#bb0019] pl-2.5">
+            <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-4 font-display">
               {t.footer.usefulLinksTitle}
             </h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-300">
+            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-400 font-body">
               <li>
-                <button onClick={onOpenTracking} className="hover:text-white transition-colors flex items-center gap-1">
+                <button onClick={onOpenTracking} className="hover:text-white transition-colors flex items-center gap-1 cursor-pointer">
                   <span>{t.footer.trackingLink}</span>
-                  <ArrowUpRight className="w-3 h-3 text-red-400" />
+                  <ArrowUpRight className="w-3 h-3 text-slate-500" />
                 </button>
               </li>
               <li>
-                <a href="#blog" className="hover:text-white transition-colors">{t.footer.guideLink}</a>
+                <button onClick={() => onOpenLegal('legal')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  {t.footer.legalLink}
+                </button>
               </li>
               <li>
-                <button onClick={onOpenContact} className="hover:text-white transition-colors">{t.footer.quoteLink}</button>
+                <button onClick={() => onOpenLegal('cgv')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  {t.footer.cgvLink}
+                </button>
               </li>
               <li>
-                <span className="text-slate-400">{t.footer.privacyPolicy}</span>
-              </li>
-              <li>
-                <span className="text-slate-400">{t.footer.termsOfService}</span>
+                <button onClick={() => onOpenLegal('privacy')} className="hover:text-white transition-colors text-left cursor-pointer">
+                  {t.footer.privacyLink}
+                </button>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Contact & Localisation */}
-          <div>
-            <h4 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-[#bb0019] pl-2.5">
-              {t.footer.contactTitle}
+          {/* Col 4: Hubs & Contacts Directs */}
+          <div className="space-y-3.5">
+            <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-4 font-display">
+              Bureaux & Hubs Physiques
             </h4>
-            <div className="space-y-3 text-xs text-slate-300">
-              <div>
-                <span className="font-semibold text-white block mb-0.5">{t.footer.guangzhouOffice}:</span>
-                <p className="text-slate-400 leading-snug">
-                  {COMPANY_CONTACT.guangzhouOffice.address}
-                </p>
+            <div className="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-xs">
+              <div className="flex items-center gap-1.5 text-orange-400 font-bold mb-1">
+                <span>🇨🇳</span>
+                <span>Guangzhou (Yuexiu)</span>
               </div>
-
-              <div className="pt-2 border-t border-white/10">
-                <p className="flex items-center gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-red-400 shrink-0" />
-                  <span>Phone: {COMPANY_CONTACT.guangzhouOffice.phone}</span>
-                </p>
-                <p className="flex items-center gap-1.5 mt-1">
-                  <Mail className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-                  <span className="truncate">Email: {COMPANY_CONTACT.guangzhouOffice.email}</span>
-                </p>
+              <p className="text-slate-400 text-[11px] leading-relaxed">
+                {COMPANY_CONTACT.guangzhouOffice.address}
+              </p>
+            </div>
+            <div className="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-xs">
+              <div className="flex items-center gap-1.5 text-sky-400 font-bold mb-1">
+                <span>🇨🇩</span>
+                <span>Kinshasa (Gombe)</span>
               </div>
-
-              <div className="pt-2 border-t border-white/10">
-                <span className="font-semibold text-white block mb-0.5">{t.footer.kinshasaOffice}:</span>
-                <p className="text-slate-400 flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span>{COMPANY_CONTACT.kinshasaOffice.address}, {COMPANY_CONTACT.kinshasaOffice.city}</span>
-                </p>
-              </div>
+              <p className="text-slate-400 text-[11px] leading-relaxed">
+                {COMPANY_CONTACT.kinshasaOffice.address}
+              </p>
             </div>
           </div>
-
         </div>
 
-        {/* Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4 text-center sm:text-left">
-          <p>© 2024 CM SERVICE CO., LIMITED. {t.footer.rightsReserved}</p>
-          <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-[11px]">
-            <span>Arco Iris RDC</span>
+        {/* Bottom copyright */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <p>© {new Date().getFullYear()} CM SERVICE CO., LIMITED. Tous droits réservés.</p>
+          <div className="flex items-center gap-4">
+            <button onClick={() => onOpenLegal('legal')} className="hover:text-slate-300 cursor-pointer">Mentions Légales</button>
             <span>•</span>
-            <span>Guangzhou Yuexiu District</span>
+            <button onClick={() => onOpenLegal('cgv')} className="hover:text-slate-300 cursor-pointer">Conditions de Transport</button>
             <span>•</span>
-            <span>Gombe Kinshasa</span>
+            <button onClick={() => onOpenLegal('privacy')} className="hover:text-slate-300 cursor-pointer">Confidentialité</button>
           </div>
         </div>
       </div>
     </footer>
   );
 };
-

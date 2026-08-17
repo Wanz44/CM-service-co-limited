@@ -2,30 +2,36 @@
 
 @layer base {
   body {
-    font-family: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #f8fafc;
+    color: #0f172a;
+    line-height: 1.65;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.025em;
   }
 }
 
-.bg-navy-dark {
-  background-color: #021541;
+/* Custom Corporate Minimalist Tokens */
+.font-display {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
-.text-navy-dark {
-  color: #021541;
+.font-body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-.bg-brand-red {
-  background-color: #bb0019;
+/* Soft Diffuse Minimalist Shadows */
+.shadow-soft {
+  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.04), 0 4px 6px -2px rgba(15, 23, 42, 0.02);
 }
 
-.text-brand-red {
-  color: #bb0019;
+.shadow-soft-lg {
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.06), 0 6px 10px -3px rgba(15, 23, 42, 0.03);
 }
 
-.border-brand-red {
-  border-color: #bb0019;
-}
-
-.hover\:bg-brand-red-dark:hover {
-  background-color: #990014;
+.shadow-soft-xl {
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.08);
 }

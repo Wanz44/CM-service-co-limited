@@ -11,10 +11,10 @@ export const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose })
   if (!isOpen) return null;
 
   const preFilledMessages = [
-    "Bonjour CM Service, je souhaite avoir des informations sur le fret maritime Chine -> Kinshasa.",
-    "Bonjour, je recherche un agent de sourcing à Guangzhou pour acheter sur 1688 / Alibaba.",
-    "Bonjour, j'aimerais suivre l'état d'avancement d'un conteneur vers Matadi.",
-    "Bonjour, je voudrais une assistance pour le dédouanement à l'aéroport de N'djili."
+    "Bonjour CM Service, je souhaite avoir des informations sur le fret maritime Chine ➔ Kinshasa.",
+    "Bonjour CM Service, je recherche un accompagnement sourcing à Guangzhou pour acheter sur 1688 / Alibaba.",
+    "Bonjour CM Service, je souhaite acheter un véhicule de marque chinoise (BYD, Chery, Geely, Sinotruk...).",
+    "Bonjour CM Service, je souhaite une assistance dédouanement à Matadi / Kinshasa."
   ];
 
   const handleOpenWhatsApp = (msg: string) => {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { X, Send, CheckCircle2, ShieldCheck, MessageSquare } from 'lucide-react';
-import { QuoteFormData } from '../types';
+import { X, Send, CheckCircle2, ShieldCheck, MessageSquare, ArrowRight, Sparkles } from 'lucide-react';
 import { COMPANY_CONTACT } from '../data/content';
 
 interface QuoteModalProps {
@@ -16,249 +15,278 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
   initialDetails = '',
   onOpenWhatsApp,
 }) => {
-  const [formData, setFormData] = useState<QuoteFormData>({
-    name: '',
-    phone: '',
-    email: '',
-    company: '',
-    type: 'maritime',
-    origin: 'Guangzhou (Chine)',
-    destination: 'Kinshasa (Gombe, RDC)',
-    weight: '',
-    volume: '',
-    description: initialDetails,
-  });
+  const [name, setName] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
+  const [service, setService] = useState('maritime');
+  const [message, setMessage] = useState(initialDetails);
+  const [consent, setConsent] = useState(true);
 
+  const [errors, setErrors] = useState<{ name?: string; whatsapp?: string }>({});
   const [submitted, setSubmitted] = useState(false);
 
   if (!isOpen) return null;
 
-  const getTypeLabel = (type: string) => {
-    switch (type) {
-      case 'sourcing': return "Centrale d'achats / Sourcing Chine";
-      case 'vehicules_chinois': return "Achat & Vente de Véhicules (BYD, Geely, Chery, Sinotruk...)";
-      case 'marques_chinoises': return "Achat & Vente de Marques Chinoises";
-      case 'maritime': return "Fret Maritime (LCL / FCL)";
-      case 'aerien': return "Fret Aérien Express";
-      case 'douane': return "Transit & Dédouanement Matadi/Kinshasa";
-      case 'autre': return "Business Facilities & Autres";
-      default: return type;
+  const serviceOptions = [
+    { value: 'maritime', label: 'Fret Maritime (Conteneur FCL / Groupage LCL)' },
+    { value: 'aerien', label: 'Fret Aérien Express (Chine ➔ Kinshasa)' },
+    { value: 'vehicules', label: 'Achat & Importation Véhicules Chinois' },
+    { value: 'sourcing', label: 'Centrale d\'achats & Sourcing Usines (1688/Canton)' },
+    { value: 'douane', label: 'Dédouanement DGDA & Certificat FERI' },
+  ];
+
+  const validate = () => {
+    const errs: { name?: string; whatsapp?: string } = {};
+    if (!name.trim()) {
+      errs.name = 'Veuillez renseigner votre nom complet';
     }
+    if (!whatsapp.trim()) {
+      errs.whatsapp = 'Veuillez saisir votre numéro WhatsApp';
+    } else if (whatsapp.trim().length < 6) {
+      errs.whatsapp = 'Numéro de téléphone trop court';
+    }
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
   };
 
-  const buildWhatsAppMessage = () => {
-    return `Bonjour CM SERVICE CO., LIMITED,
-
-Je souhaite vous soumettre une demande de cotation & projet :
-
-👤 *Nom complet:* ${formData.name || 'Non précisé'}
-📞 *Téléphone / WhatsApp:* ${formData.phone || 'Non précisé'}
-📧 *Email:* ${formData.email || 'Non renseigné'}
-📂 *Type d'Opération:* ${getTypeLabel(formData.type)}
-🛫 *Ville de Départ:* ${formData.origin || 'Guangzhou (Chine)'}
-🛬 *Destination RDC:* ${formData.destination || 'Kinshasa, RDC'}
-📝 *Description du Projet / Marchandises:*
-${formData.description || 'Aucune description spécifique'}`;
+  const getServiceLabel = (val: string) => {
+    const found = serviceOptions.find(opt => opt.value === val);
+    return found ? found.label : val;
   };
 
-  const sendToWhatsApp = () => {
-    const msg = buildWhatsAppMessage();
-    const encodedMsg = encodeURIComponent(msg);
-    window.open(`https://wa.me/${COMPANY_CONTACT.whatsapp}?text=${encodedMsg}`, '_blank');
+  const buildWhatsAppUrl = () => {
+    const text = `Bonjour CM SERVICE CO., LIMITED,
+
+Je souhaite faire une demande de cotation :
+👤 *Nom:* ${name}
+📞 *WhatsApp:* ${whatsapp}
+📦 *Service souhaité:* ${getServiceLabel(service)}
+${message ? `📝 *Message:* ${message}` : ''}`;
+
+    return `https://wa.me/${COMPANY_CONTACT.whatsapp}?text=${encodeURIComponent(text)}`;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone) return;
-    
-    // Automatically open WhatsApp with all filled form details
-    sendToWhatsApp();
+    if (!validate()) return;
+
+    // Open WhatsApp directly in a new tab
+    const url = buildWhatsAppUrl();
+    window.open(url, '_blank');
+
     setSubmitted(true);
   };
 
-  const resetAndClose = () => {
+  const handleResetAndClose = () => {
     setSubmitted(false);
+    setName('');
+    setWhatsapp('');
+    setMessage('');
+    setErrors({});
     onClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-2xl max-w-xl w-full border border-slate-200 overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-150">
-        {/* Header */}
-        <div className="bg-[#021541] text-white p-6 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] font-bold text-[#bb0019] bg-white px-2 py-0.5 rounded uppercase tracking-wider">
-              ETUDE SUR-MESURE
-            </span>
-            <h3 className="text-xl font-bold tracking-tight mt-1">Demande de Cotation & Projet</h3>
-          </div>
-          <button
-            onClick={resetAndClose}
-            className="text-slate-300 hover:text-white p-1 rounded-full hover:bg-white/10"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+      <div className="bg-white rounded-3xl shadow-soft-xl max-w-lg w-full border border-slate-200/80 overflow-hidden my-6 animate-in fade-in zoom-in-95 duration-200 relative">
+        
+        {/* Close Button */}
+        <button
+          onClick={handleResetAndClose}
+          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-800 flex items-center justify-center transition-colors cursor-pointer z-10"
+          aria-label="Fermer"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
-        {/* Content */}
-        <div className="p-6">
-          {submitted ? (
-            <div className="py-8 text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-10 h-10" />
-              </div>
-              <h4 className="text-2xl font-extrabold text-[#021541]">Demande Transmise avec Succès !</h4>
-              <p className="text-slate-600 text-sm max-w-md mx-auto leading-relaxed">
-                Merci <span className="font-bold text-slate-800">{formData.name}</span>. Un agent commercial de notre bureau de Guangzhou ou Kinshasa traitera votre dossier dans un délai de 2 heures ouvrées.
-              </p>
-
-              <div className="pt-4 flex flex-col sm:flex-row justify-center gap-3">
-                <button
-                  onClick={onOpenWhatsApp}
-                  className="bg-[#bb0019] hover:bg-[#990014] text-white px-6 py-3 rounded font-bold text-xs uppercase flex items-center justify-center gap-2"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Accélérer par WhatsApp</span>
-                </button>
-                <button
-                  onClick={resetAndClose}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3 rounded font-bold text-xs uppercase"
-                >
-                  Fermer
-                </button>
-              </div>
+        {submitted ? (
+          /* Ecran de Succès & Pont WhatsApp */
+          <div className="p-8 text-center space-y-5">
+            <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto animate-in zoom-in-50 duration-300">
+              <CheckCircle2 className="w-10 h-10 stroke-[2.5]" />
             </div>
-          ) : (
+
+            <div>
+              <h3 className="text-2xl font-extrabold text-[#0f172a] font-display">
+                Demande Transmise !
+              </h3>
+              <p className="text-sm text-slate-600 mt-2 max-w-sm mx-auto leading-relaxed">
+                Merci <strong className="text-[#0f172a]">{name}</strong>. Votre demande a été enregistrée avec succès.
+              </p>
+            </div>
+
+            {/* Pont WhatsApp direct */}
+            <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 text-left space-y-2">
+              <div className="flex items-center gap-2 text-emerald-800 font-bold text-xs">
+                <MessageSquare className="w-4 h-4 fill-emerald-600 text-emerald-600" />
+                <span>Conseiller en ligne immédiatement disponible</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Pour recevoir votre cotation chiffrée sous 15 minutes, poursuivez l'échange sur WhatsApp.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2.5 pt-2">
+              <a
+                href={buildWhatsAppUrl()}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full py-3.5 px-6 rounded-2xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-soft active:scale-98 transition-all"
+              >
+                <MessageSquare className="w-4 h-4 fill-white" />
+                <span>Continuer la conversation sur WhatsApp</span>
+              </a>
+
+              <button
+                onClick={handleResetAndClose}
+                className="w-full py-3 px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
+              >
+                Fermer
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* Formulaire de Cotation (4 champs max avec floating labels) */
+          <div className="p-6 sm:p-8">
+            <div className="mb-6">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 uppercase tracking-wider mb-1">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Réponse en moins de 2h</span>
+              </div>
+              <h3 className="text-2xl font-extrabold text-[#0f172a] tracking-tight font-display">
+                Demander un Devis
+              </h3>
+              <p className="text-xs text-slate-500 mt-1 font-body">
+                Remplissez ce formulaire en 30 secondes pour obtenir une étude chiffrée.
+              </p>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Nom Complet *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Jean-Marc Kabasele"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded text-sm text-[#021541]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Téléphone / WhatsApp *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+243 81 000 0000"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded text-sm text-[#021541]"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Email Professionnel
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="contact@entreprise.com"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded text-sm text-[#021541]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Type d'Opération
-                  </label>
-                  <select
-                    value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded text-sm text-[#021541]"
-                  >
-                    <option value="sourcing">Centrale d'achats / Sourcing Chine</option>
-                    <option value="vehicules_chinois">Achat & Vente de Véhicules Chinois (BYD, Geely, Chery, Sinotruk...)</option>
-                    <option value="marques_chinoises">Achat & Vente de marques chinoises (Xiaomi, Huawei, etc.)</option>
-                    <option value="maritime">Fret Maritime (LCL / FCL)</option>
-                    <option value="aerien">Fret Aérien Express</option>
-                    <option value="douane">Transit & Dédouanement Matadi/Kinshasa</option>
-                    <option value="autre">Business Facilities & Autres</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Ville de Départ
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.origin}
-                    onChange={(e) => setFormData({ ...formData, origin: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded text-sm text-[#021541]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Destination Finale RDC
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.destination}
-                    onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded text-sm text-[#021541]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  Description du projet / Marchandises
+              
+              {/* Champ 1: Nom complet (Floating Label Effect) */}
+              <div className="relative">
+                <input
+                  id="quote-name"
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (errors.name) setErrors({ ...errors, name: undefined });
+                  }}
+                  placeholder=" "
+                  className="peer w-full px-4 pt-5 pb-2 text-sm text-[#0f172a] bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-hidden focus:border-orange-500 focus:ring-4 focus:ring-orange-500/15 transition-all duration-150"
+                />
+                <label
+                  htmlFor="quote-name"
+                  className="absolute text-xs text-slate-500 duration-150 transform -translate-y-2.5 scale-75 top-4 z-10 origin-left left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-orange-600 font-medium pointer-events-none"
+                >
+                  Nom complet *
                 </label>
+                {errors.name && (
+                  <p className="text-[11px] font-semibold text-rose-600 mt-1 pl-1">
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+
+              {/* Champ 2: Numéro WhatsApp (Clavier numérique auto) */}
+              <div className="relative">
+                <input
+                  id="quote-whatsapp"
+                  type="tel"
+                  inputMode="tel"
+                  required
+                  value={whatsapp}
+                  onChange={(e) => {
+                    setWhatsapp(e.target.value);
+                    if (errors.whatsapp) setErrors({ ...errors, whatsapp: undefined });
+                  }}
+                  placeholder=" "
+                  className="peer w-full px-4 pt-5 pb-2 text-sm text-[#0f172a] bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-hidden focus:border-orange-500 focus:ring-4 focus:ring-orange-500/15 transition-all duration-150"
+                />
+                <label
+                  htmlFor="quote-whatsapp"
+                  className="absolute text-xs text-slate-500 duration-150 transform -translate-y-2.5 scale-75 top-4 z-10 origin-left left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-orange-600 font-medium pointer-events-none"
+                >
+                  Numéro WhatsApp (avec indicatif ex: +243...) *
+                </label>
+                {errors.whatsapp && (
+                  <p className="text-[11px] font-semibold text-rose-600 mt-1 pl-1">
+                    {errors.whatsapp}
+                  </p>
+                )}
+              </div>
+
+              {/* Champ 3: Service souhaité (Menu déroulant) */}
+              <div>
+                <label htmlFor="quote-service" className="block text-xs font-bold text-slate-700 mb-1.5 pl-1">
+                  Service souhaité *
+                </label>
+                <select
+                  id="quote-service"
+                  value={service}
+                  onChange={(e) => setService(e.target.value)}
+                  className="w-full px-4 py-3 text-sm text-[#0f172a] bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-hidden focus:border-orange-500 focus:ring-4 focus:ring-orange-500/15 transition-all duration-150 font-medium cursor-pointer"
+                >
+                  {serviceOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Champ 4: Message (Facultatif) */}
+              <div className="relative">
                 <textarea
+                  id="quote-message"
                   rows={3}
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Détails des articles (ex: 20 couveuses automatiques, 500kg carrelage, cartons vêtement...)"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded text-sm text-[#021541]"
-                ></textarea>
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder=" "
+                  className="peer w-full px-4 pt-5 pb-2 text-sm text-[#0f172a] bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:outline-hidden focus:border-orange-500 focus:ring-4 focus:ring-orange-500/15 transition-all duration-150 resize-none"
+                />
+                <label
+                  htmlFor="quote-message"
+                  className="absolute text-xs text-slate-500 duration-150 transform -translate-y-2.5 scale-75 top-4 z-10 origin-left left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-orange-600 font-medium pointer-events-none"
+                >
+                  Votre message ou détails de marchandises (facultatif)
+                </label>
               </div>
 
-              <div className="bg-slate-100 p-3 rounded flex items-center justify-between text-xs text-slate-600">
-                <span className="flex items-center gap-1">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>Confidentialité et sécurité garanties par CM Service Co.</span>
-                </span>
+              {/* Case de consentement discrète */}
+              <div className="flex items-start gap-2.5 pt-1">
+                <input
+                  id="quote-consent"
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 rounded text-orange-600 focus:ring-orange-500 border-slate-300"
+                />
+                <label htmlFor="quote-consent" className="text-[11px] text-slate-500 leading-snug cursor-pointer select-none">
+                  J'accepte que mes données soient utilisées pour le traitement de ma cotation par CM Service Co., Ltd.
+                </label>
               </div>
 
-              <div className="pt-2 flex items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={resetAndClose}
-                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800"
-                >
-                  Annuler
-                </button>
-                <button
-                  type="submit"
-                  className="bg-[#bb0019] hover:bg-[#990014] text-white px-6 py-3 rounded font-bold text-xs uppercase transition-all shadow-md flex items-center gap-2 cursor-pointer"
-                >
-                  <span>Démarrer mon projet sur WhatsApp</span>
-                  <Send className="w-3.5 h-3.5 text-white" />
-                </button>
+              {/* Bouton CTA d'envoi en Orange Cuivré */}
+              <button
+                type="submit"
+                disabled={!consent}
+                className="w-full py-4 px-6 rounded-2xl bg-orange-600 hover:bg-orange-700 disabled:opacity-50 text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 shadow-soft hover:shadow-soft-lg active:scale-98 transition-all cursor-pointer mt-3"
+              >
+                <span>Envoyer ma demande</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 text-center pt-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Données protégées • Devis gratuit sans engagement</span>
               </div>
+
             </form>
-          )}
-        </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

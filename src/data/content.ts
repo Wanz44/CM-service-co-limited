@@ -131,7 +131,7 @@ En confiant vos achats à notre centrale à Guangzhou :
     id: 'incubateurs-rdc',
     category: "INNOVATION",
     title: "Aviculture en RDC : pourquoi la nouvelle génération d'incubateurs change la donne",
-    summary: "L'impact technologique sur la production locale et comment Arco Iris facilite l'importation de ces équipements de pointe.",
+    summary: "L'impact technologique sur la production locale et comment CM Service facilite l'importation de ces équipements de pointe.",
     content: `La demande en œufs et en poulets de chair à Kinshasa et dans les grandes villes de la RDC explose. Longtemps dépendante des importations de volaille surgelée, la filière avicole congolaise connaît une révolution grâce à l'importation d'incubateurs automatiques solaires et hybrides fabriqués en Chine.
 
 ### Les avantages des couveuses de nouvelle génération :
@@ -151,7 +151,7 @@ Nous faisons le sourcing des usines certifiées ISO en Chine, organisons l'embal
     category: "IMMOBILIER",
     title: "Gestion immobilière à Kinshasa : solution de confiance pour la diaspora",
     summary: "Comment sécuriser vos investissements immobiliers au pays tout en vivant à l'étranger grâce à notre expertise locale.",
-    content: `Pour la diaspora congolaise vivant en France, en Belgique, au Canada ou en Chine, investir dans la construction ou l'achat immobilier à Kinshasa représente un projet de vie majeur, mais souvent semé d'embûches (surcoûts, matériaux défaillants, gestion opaque).
+    content: `Pour les entrepreneurs et investisseurs congolais en relation avec la Chine, investir dans la construction ou l'équipement à Kinshasa représente un projet majeur qui requiert un sourcing direct d'usine et une logistique maîtrisée.
 
 ### Les clés d'un projet réussi à Kinshasa :
 1. **Importation directe des matériaux de finition depuis la Chine** : Carrelage, Sanitaires, Luminaires LED, Menuiserie Aluminium, Panneaux solaires. En achetant directement à l'usine en Chine avec CM Service, vous économisez jusqu'à 50% par rapport au marché local.
