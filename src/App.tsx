@@ -10,6 +10,7 @@ import { TestimonialsAndCasesSection } from './components/TestimonialsAndCasesSe
 import { PresentationSection } from './components/PresentationSection';
 import { FaqSection } from './components/FaqSection';
 import { PartnersSection } from './components/PartnersSection';
+import { ContactSection } from './components/ContactSection';
 import { CtaSection } from './components/CtaSection';
 import { Footer } from './components/Footer';
 import { MobileBottomBar } from './components/MobileBottomBar';
@@ -124,7 +125,14 @@ export default function App() {
         {/* 10. Partners Section */}
         <PartnersSection currentLang={currentLang} />
 
-        {/* 11. Call To Action (CTA) */}
+        {/* 11. Contact & Physical Hubs Section */}
+        <ContactSection
+          currentLang={currentLang}
+          onOpenWhatsApp={() => setWhatsAppOpen(true)}
+          onOpenQuote={(details) => handleOpenQuoteWithDetails(details || '')}
+        />
+
+        {/* 12. Call To Action (CTA) */}
         <CtaSection
           currentLang={currentLang}
           onStartProject={() => { setQuoteDetails(''); setQuoteOpen(true); }}
@@ -137,7 +145,7 @@ export default function App() {
         <Footer
           currentLang={currentLang}
           onOpenTracking={() => setTrackingOpen(true)}
-          onOpenContact={() => { setQuoteDetails(''); setQuoteOpen(true); }}
+          onOpenContact={() => scrollToSection('contact')}
           onOpenWhatsApp={() => setWhatsAppOpen(true)}
           onOpenLegal={handleOpenLegal}
         />

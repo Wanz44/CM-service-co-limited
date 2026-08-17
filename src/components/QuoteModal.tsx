@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, CheckCircle2, ShieldCheck, MessageSquare, ArrowRight, Sparkles } from 'lucide-react';
-import { COMPANY_CONTACT } from '../data/content';
+import { COMPANY_CONTACT, COMPANY_LOGO } from '../data/content';
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -147,17 +147,27 @@ ${message ? `📝 *Message:* ${message}` : ''}`;
         ) : (
           /* Formulaire de Cotation (4 champs max avec floating labels) */
           <div className="p-6 sm:p-8">
-            <div className="mb-6">
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 uppercase tracking-wider mb-1">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Réponse en moins de 2h</span>
+            <div className="mb-6 flex items-start justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 uppercase tracking-wider mb-1">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Réponse en moins de 2h</span>
+                </div>
+                <h3 className="text-2xl font-extrabold text-[#0f172a] tracking-tight font-display">
+                  Demander un Devis
+                </h3>
+                <p className="text-xs text-slate-500 mt-1 font-body">
+                  Remplissez ce formulaire en 30 secondes pour obtenir une étude chiffrée.
+                </p>
               </div>
-              <h3 className="text-2xl font-extrabold text-[#0f172a] tracking-tight font-display">
-                Demander un Devis
-              </h3>
-              <p className="text-xs text-slate-500 mt-1 font-body">
-                Remplissez ce formulaire en 30 secondes pour obtenir une étude chiffrée.
-              </p>
+              <div className="h-10 w-auto p-1 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center shrink-0">
+                <img
+                  src={COMPANY_LOGO}
+                  alt="CM SERVICE Logo"
+                  className="h-8 w-auto max-w-[70px] object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
+import { COMPANY_LOGO } from '../data/content';
 
 interface HeaderProps {
   currentLang: Language;
@@ -43,7 +44,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const t = translations[currentLang];
 
-  // 4 Navigation Links rule ("4 + 1")
+  // Navigation Links with Contact
   const navLinks = [
     {
       id: 'services',
@@ -64,6 +65,11 @@ export const Header: React.FC<HeaderProps> = ({
       id: 'presentation',
       label: currentLang === 'zh' ? '关于我们' : currentLang === 'en' ? 'About' : 'À propos',
       icon: Building2,
+    },
+    {
+      id: 'contact',
+      label: currentLang === 'zh' ? '联系我们' : currentLang === 'en' ? 'Contact' : 'Contact',
+      icon: MessageSquare,
     },
   ];
 
@@ -125,27 +131,32 @@ export const Header: React.FC<HeaderProps> = ({
           isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        {/* Main Header Bar (Discreet 68px height) */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-17 sm:h-18 flex items-center justify-between">
+        {/* Main Header Bar */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[78px] sm:min-h-[90px] py-2 flex items-center justify-between">
           
           {/* Logo (Left, clickable = Home) */}
           <div
-            className="flex items-center gap-3 cursor-pointer select-none group"
+            className="flex items-center gap-3.5 cursor-pointer select-none group"
             onClick={() => handleNavClick('hero')}
           >
-            <div className="w-10 h-10 rounded-2xl bg-[#0f172a] flex items-center justify-center text-white font-extrabold text-base tracking-wider border-2 border-orange-500 shadow-soft shrink-0 group-hover:border-orange-400 transition-colors">
-              CM
+            <div className="h-18 sm:h-22 w-auto flex items-center justify-center shrink-0">
+              <img
+                src={COMPANY_LOGO}
+                alt="CM SERVICE Logo"
+                className="h-16 sm:h-20 w-auto max-w-[280px] object-contain transition-transform duration-200 group-hover:scale-105"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <h1 className="text-base sm:text-lg font-black text-[#0f172a] tracking-tight leading-none font-display">
+                <h1 className="text-lg sm:text-xl font-black text-[#0f172a] tracking-tight leading-none font-display">
                   CM SERVICE
                 </h1>
                 <span className="hidden sm:inline-block text-[10px] font-bold text-orange-700 bg-orange-50 border border-orange-200 px-1.5 py-0.5 rounded-full">
                   CO., LTD
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] font-bold text-slate-500 tracking-wider uppercase mt-0.5 flex items-center gap-1.5">
+              <p className="text-[11px] sm:text-xs font-bold text-slate-500 tracking-wider uppercase mt-1 flex items-center gap-1.5">
                 <span>🇨🇳 Guangzhou</span>
                 <span className="text-orange-500 font-bold">⇄</span>
                 <span>🇨🇩 Kinshasa</span>
@@ -281,8 +292,13 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Top Bar of Overlay */}
           <div className="flex items-center justify-between pb-6 border-b border-slate-800">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-orange-600 flex items-center justify-center font-extrabold text-white text-base shadow-soft">
-                CM
+              <div className="h-10 w-auto p-1 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
+                <img
+                  src={COMPANY_LOGO}
+                  alt="CM SERVICE Logo"
+                  className="h-8 w-auto max-w-[100px] object-contain"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <div>
                 <h3 className="font-black text-base tracking-tight text-white font-display">

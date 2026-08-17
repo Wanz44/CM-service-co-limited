@@ -29,8 +29,13 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Col 1: Brand Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-orange-600 flex items-center justify-center font-extrabold text-white text-base shadow-soft">
-                CM
+              <div className="h-12 w-auto bg-white/10 p-1.5 rounded-2xl flex items-center justify-center shrink-0">
+                <img
+                  src={COMPANY_CONTACT.logo}
+                  alt="CM SERVICE Logo"
+                  className="h-9 w-auto max-w-[130px] object-contain"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <div>
                 <h3 className="font-extrabold text-base tracking-tight text-white font-display leading-tight">

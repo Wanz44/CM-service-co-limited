@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, MessageSquare, Send, ExternalLink, PhoneCall, Check } from 'lucide-react';
-import { COMPANY_CONTACT } from '../data/content';
+import { COMPANY_CONTACT, COMPANY_LOGO } from '../data/content';
 
 interface WhatsAppModalProps {
   isOpen: boolean;
@@ -24,23 +24,28 @@ export const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose })
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-2xl max-w-md w-full border border-slate-200 overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-150">
+      <div className="bg-white rounded-3xl shadow-soft-xl max-w-md w-full border border-slate-200/90 overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-150">
         {/* Header */}
-        <div className="bg-[#bb0019] text-white p-5 flex items-center justify-between">
+        <div className="bg-[#0f172a] text-white p-5 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
-              <MessageSquare className="w-6 h-6" />
+            <div className="h-10 w-auto p-1 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
+              <img
+                src={COMPANY_LOGO}
+                alt="CM SERVICE Logo"
+                className="h-7 w-auto max-w-[80px] object-contain"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <div>
-              <h3 className="text-lg font-bold tracking-tight">Contact WhatsApp Direct</h3>
-              <p className="text-xs text-red-100">Bureau Guangzhou (Chine) & Kinshasa</p>
+              <h3 className="text-base font-extrabold tracking-tight font-display">WhatsApp Direct Desk</h3>
+              <p className="text-[11px] text-slate-400">Guangzhou (Chine) ⇄ Kinshasa (RDC)</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10"
+            className="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-colors cursor-pointer"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 

@@ -213,9 +213,12 @@ export const PARTNERS_LIST = [
   { name: 'ALIBABA', logoText: 'ALIBABA GROUP' }
 ];
 
+export const COMPANY_LOGO = "https://xjllcclxkffrpdnbttmj.supabase.co/storage/v1/object/public/branding/cm_logo_v1_transparent%20(1).png";
+
 export const COMPANY_CONTACT = {
   name: "CM SERVICE CO., LIMITED",
   tagline: "Experts en logistique internationale et facilitation commerciale entre la Chine et la République Démocratique du Congo.",
+  logo: COMPANY_LOGO,
   guangzhouOffice: {
     address: "No. 5F08, Jiuzhilong Trade City, No. 18 Guangyuan West Road, Yuexiu District, Guangzhou",
     phone: "+86 17701980521",

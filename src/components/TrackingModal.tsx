@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Search, PackageCheck, Ship, Plane, CheckCircle2, Clock, MapPin, Truck } from 'lucide-react';
-import { MOCK_SHIPMENTS } from '../data/content';
+import { MOCK_SHIPMENTS, COMPANY_LOGO } from '../data/content';
 import { TrackingShipment } from '../types';
 
 interface TrackingModalProps {
@@ -53,23 +53,28 @@ export const TrackingModal: React.FC<TrackingModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full border border-slate-200 overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-150">
+      <div className="bg-white rounded-3xl shadow-soft-xl max-w-2xl w-full border border-slate-200/90 overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-150">
         {/* Header */}
-        <div className="bg-[#021541] text-white p-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded bg-[#bb0019] flex items-center justify-center text-white">
-              <PackageCheck className="w-6 h-6" />
+        <div className="bg-[#0f172a] text-white p-6 flex items-center justify-between border-b border-slate-800">
+          <div className="flex items-center gap-3.5">
+            <div className="h-11 w-auto bg-white/10 p-1 rounded-2xl flex items-center justify-center shrink-0">
+              <img
+                src={COMPANY_LOGO}
+                alt="CM SERVICE Logo"
+                className="h-8 w-auto max-w-[100px] object-contain"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <div>
-              <h3 className="text-xl font-bold tracking-tight">Suivi de Colis en Temps Réel</h3>
-              <p className="text-xs text-slate-300">Guangzhou ⇄ Matadi ⇄ Kinshasa</p>
+              <h3 className="text-xl font-extrabold tracking-tight font-display">Suivi de Colis en Temps Réel</h3>
+              <p className="text-xs text-slate-400">Guangzhou ⇄ Matadi ⇄ Kinshasa</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-300 hover:text-white p-1 rounded-full hover:bg-white/10"
+            className="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-colors cursor-pointer"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
